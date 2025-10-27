@@ -5,6 +5,7 @@ dotenv.config();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const formidable = require('formidable');
@@ -29,6 +30,21 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 });
+=======
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
+// Mongoose models used by endpoints in this file
+const User = require('./models/User');
+const Food = require('./models/Food');
+const Cart = require('./models/Cart');
+const Order = require('./models/Order');
+
+// Import routes
+const authRoutes = require('./routes/auth.routes');
+const restaurantRoutes = require('./routes/restaurant.routes');
+const customerRoutes = require('./routes/customer.routes');
+const orderRoutes = require('./routes/order.routes');
+>>>>>>> f5a76c9 (final commit)
 
 // Middleware
 app.use(express.json());
@@ -40,10 +56,19 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/restau
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN || 'default_jwt_secret_key_change_in_production_12345';
 const PORT = process.env.PORT || 5000;
 
+<<<<<<< HEAD
 console.log('Environment variables:');
 console.log('MONGODB_URI:', MONGODB_URI);
 console.log('ACCESS_TOKEN:', ACCESS_TOKEN ? 'Set' : 'Not set');
 console.log('PORT:', PORT);
+=======
+// Log environment variables (except sensitive ones in production)
+if (process.env.NODE_ENV !== 'production') {
+    console.log('Environment variables:');
+    console.log('MONGODB_URI:', MONGODB_URI);
+    console.log('PORT:', PORT);
+}
+>>>>>>> f5a76c9 (final commit)
 
 // MongoDB connection
 mongoose.connect(MONGODB_URI, {
@@ -76,11 +101,37 @@ function authenticateUser(req, res, next) {
     });
 }
 
+<<<<<<< HEAD
 // Routes
 app.get('/', (req, res) => {
     res.send('Welcome to my server');
 });
 
+=======
+// Role-based access control
+function requireRole(role) {
+    return (req, res, next) => {
+        if (!req.user || req.user.role !== role) {
+            return res.status(403).json({ message: 'Forbidden: insufficient permissions' });
+        }
+        next();
+    };
+}
+
+// Routes
+app.get('/', (req, res) => {
+    res.send('Welcome to the Food Ordering API');
+});
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api', customerRoutes);
+app.use('/api/orders', orderRoutes);
+
+// Note: 404 and error handlers are registered at the end of the file, after all routes.
+
+>>>>>>> f5a76c9 (final commit)
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.status(200).json({
@@ -141,7 +192,11 @@ app.get('/api/user', async (req, res) => {
 // User registration
 app.post("/api/register", async (req, res) => {
     try {
+<<<<<<< HEAD
         let { fullname, email, password } = req.body;
+=======
+        let { fullname, email, password, role } = req.body;
+>>>>>>> f5a76c9 (final commit)
         
         console.log('Registration attempt:', { fullname, email, password: password ? '***' : 'empty' });
         
@@ -149,6 +204,10 @@ app.post("/api/register", async (req, res) => {
         fullname = sanitizeInput(fullname);
         email = sanitizeInput(email);
         password = sanitizeInput(password);
+<<<<<<< HEAD
+=======
+        role = sanitizeInput(role);
+>>>>>>> f5a76c9 (final commit)
         
         // Validate inputs
         if (!fullname || !email || !password) {
@@ -175,6 +234,16 @@ app.post("/api/register", async (req, res) => {
             });
         }
 
+<<<<<<< HEAD
+=======
+        // Validate role
+        if (role && !['customer', 'restaurant'].includes(role)) {
+            return res.status(400).json({
+                error: "Invalid role. Allowed: customer, restaurant"
+            });
+        }
+
+>>>>>>> f5a76c9 (final commit)
         // Check if user already exists (case insensitive)
         const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
         if (existingUser) {
@@ -187,7 +256,12 @@ app.post("/api/register", async (req, res) => {
         const user = new User({
             fullname: fullname.trim(),
             email: email.toLowerCase().trim(),
+<<<<<<< HEAD
             password: password
+=======
+            password: password,
+            role: role || 'customer'
+>>>>>>> f5a76c9 (final commit)
         });
 
         await user.save();
@@ -195,7 +269,11 @@ app.post("/api/register", async (req, res) => {
 
         // Generate JWT token
         const accessToken = jwt.sign(
+<<<<<<< HEAD
             { userId: user._id, name: fullname }, 
+=======
+            { userId: user._id, name: fullname, role: user.role }, 
+>>>>>>> f5a76c9 (final commit)
             ACCESS_TOKEN,
             { expiresIn: '24h' }
         );
@@ -206,7 +284,12 @@ app.post("/api/register", async (req, res) => {
             user: {
                 id: user._id,
                 name: user.fullname,
+<<<<<<< HEAD
                 email: user.email
+=======
+                email: user.email,
+                role: user.role
+>>>>>>> f5a76c9 (final commit)
             }
         });
     } catch (err) {
@@ -250,7 +333,11 @@ app.post("/api/login", async (req, res) => {
 
         // Generate JWT token
         const accessToken = jwt.sign(
+<<<<<<< HEAD
             { userId: user._id, name: user.fullname }, 
+=======
+            { userId: user._id, name: user.fullname, role: user.role }, 
+>>>>>>> f5a76c9 (final commit)
             ACCESS_TOKEN,
             { expiresIn: '24h' }
         );
@@ -262,7 +349,12 @@ app.post("/api/login", async (req, res) => {
             user: {
                 id: user._id,
                 name: user.fullname,
+<<<<<<< HEAD
                 email: user.email
+=======
+                email: user.email,
+                role: user.role
+>>>>>>> f5a76c9 (final commit)
             }
         });
     } catch (err) {
@@ -273,6 +365,7 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // Add food item
 app.post('/api/foods', async (req, res) => {
     try {
@@ -307,6 +400,13 @@ app.post('/api/foods', async (req, res) => {
 app.get('/api/foods', async (req, res) => {
     try {
         const foods = await Food.find();
+=======
+
+// Auth required: Get all food items
+app.get('/api/foods', authenticateUser, async (req, res) => {
+    try {
+        const foods = await Food.find().populate('restaurant_id', 'fullname');
+>>>>>>> f5a76c9 (final commit)
         return res.status(200).json(foods);
     } catch (err) {
         return res.status(500).json({
@@ -315,6 +415,100 @@ app.get('/api/foods', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+=======
+// Auth required: List all restaurants
+app.get('/api/restaurants', authenticateUser, async (req, res) => {
+    try {
+        const restaurants = await User.find({ role: 'restaurant' }).select('fullname email');
+        return res.status(200).json(restaurants.map(r => ({ id: r._id, name: r.fullname, email: r.email })));
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Auth required: Foods by restaurant
+app.get('/api/restaurants/:restaurantId/foods', authenticateUser, async (req, res) => {
+    try {
+        const { restaurantId } = req.params;
+        const foods = await Food.find({ restaurant_id: restaurantId });
+        return res.status(200).json(foods);
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Note: Restaurant food CRUD moved to routes/restaurant.routes.js (with image upload support)
+
+// Orders: model-backed endpoints
+// Place order from cart (creates one order per restaurant)
+app.post('/api/orders/checkout', authenticateUser, requireRole('customer'), async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const cartItems = await Cart.find({ user_id: userId }).populate('food_id');
+        if (!cartItems.length) return res.status(400).json({ error: 'Cart is empty' });
+
+        // Group by restaurant
+        const byRestaurant = new Map();
+        for (const item of cartItems) {
+            const restId = String(item.food_id.restaurant_id);
+            if (!byRestaurant.has(restId)) byRestaurant.set(restId, []);
+            byRestaurant.get(restId).push(item);
+        }
+
+        const createdOrders = [];
+        for (const [restaurantId, items] of byRestaurant.entries()) {
+            const orderItems = items.map(ci => ({
+                food_id: ci.food_id._id,
+                name: ci.food_id.food_name,
+                quantity: ci.quantity,
+                price: ci.food_id.food_price
+            }));
+            const total = orderItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+            const order = new Order({
+                user_id: userId,
+                restaurant_id: restaurantId,
+                items: orderItems,
+                total_amount: total,
+                status: 'placed'
+            });
+            await order.save();
+            createdOrders.push(order);
+        }
+
+        // Clear cart
+        await Cart.deleteMany({ user_id: userId });
+
+        return res.status(201).json({ message: 'Order(s) placed', orders: createdOrders });
+    } catch (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Customer: my orders
+app.get('/api/orders/my', authenticateUser, requireRole('customer'), async (req, res) => {
+    try {
+        const orders = await Order.find({ user_id: req.user.userId })
+            .sort({ createdAt: -1 });
+        return res.status(200).json(orders);
+    } catch (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Restaurant: orders received
+app.get('/api/orders/restaurant', authenticateUser, requireRole('restaurant'), async (req, res) => {
+    try {
+        const orders = await Order.find({ restaurant_id: req.user.userId })
+            .sort({ createdAt: -1 });
+        return res.status(200).json(orders);
+    } catch (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+>>>>>>> f5a76c9 (final commit)
 // Add item to cart (protected route)
 app.post('/api/cart', authenticateUser, async (req, res) => {
     try {
@@ -506,12 +700,27 @@ app.delete('/api/cart/user/:userId', async (req, res) => {
             message: "Cart cleared successfully"
         });
     } catch (err) {
+<<<<<<< HEAD
         return res.status(500).json({
             error: "Internal server error"
+=======
+        console.error('Error:', err);
+        res.status(500).json({ 
+            message: 'Internal server error',
+            error: process.env.NODE_ENV === 'development' ? err.message : {}
+>>>>>>> f5a76c9 (final commit)
         });
     }
 });
 
+<<<<<<< HEAD
+=======
+// 404 handler (MUST be after all routes)
+app.use((req, res) => {
+    res.status(404).json({ message: 'Route not found' });
+});
+
+>>>>>>> f5a76c9 (final commit)
 const port = PORT;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

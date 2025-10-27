@@ -19,9 +19,21 @@ const SmartNavbar = () => {
         </Link>
         
         <div className="navbar-nav me-auto">
+<<<<<<< HEAD
           <Link className="nav-link" to="/menu">
             <b>Checkout the Tasty Food</b>
           </Link>
+=======
+          {!isAuthenticated || user?.role !== 'restaurant' ? (
+            <Link className="nav-link" to="/menu">
+              <b>Checkout the Tasty Food</b>
+            </Link>
+          ) : (
+            <Link className="nav-link" to="/restaurant/menu">
+              <b>Manage Menu</b>
+            </Link>
+          )}
+>>>>>>> f5a76c9 (final commit)
         </div>
 
         <div className="navbar-nav">
@@ -34,9 +46,17 @@ const SmartNavbar = () => {
           
           {isAuthenticated ? (
             <>
+<<<<<<< HEAD
               <Link className="btn btn-primary mx-2" to="/cart">
                 Cart 🛒
               </Link>
+=======
+              {user?.role !== 'restaurant' && (
+                <Link className="btn btn-primary mx-2" to="/cart">
+                  Cart 🛒
+                </Link>
+              )}
+>>>>>>> f5a76c9 (final commit)
               <div className="dropdown">
                 <button 
                   className="btn btn-outline-secondary dropdown-toggle mx-2" 
@@ -48,6 +68,18 @@ const SmartNavbar = () => {
                 <ul className="dropdown-menu">
                   <li><span className="dropdown-item-text">Welcome, {user?.name}</span></li>
                   <li><hr className="dropdown-divider" /></li>
+<<<<<<< HEAD
+=======
+                  {user?.role === 'customer' && (
+                    <li><Link className="dropdown-item" to="/orders">My Orders</Link></li>
+                  )}
+                  {user?.role === 'restaurant' && (
+                    <>
+                      <li><Link className="dropdown-item" to="/restaurant/menu">Manage Menu</Link></li>
+                      <li><Link className="dropdown-item" to="/restaurant/orders">Incoming Orders</Link></li>
+                    </>
+                  )}
+>>>>>>> f5a76c9 (final commit)
                   <li>
                     <button className="dropdown-item" onClick={handleLogout}>
                       Sign Out

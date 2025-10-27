@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
+=======
+import { Link, useNavigate } from "react-router-dom";
+>>>>>>> f5a76c9 (final commit)
 import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +16,10 @@ export default function Checkout() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const { user, token } = useAuth();
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate();
+>>>>>>> f5a76c9 (final commit)
   
   const getData = () => {
     if (!user) return;
@@ -42,6 +50,40 @@ export default function Checkout() {
       });
   };
 
+<<<<<<< HEAD
+=======
+  const checkout = async () => {
+    try {
+      if (!user || !token) {
+        alert('Please login to proceed.');
+        return;
+      }
+      const res = await fetch('http://localhost:5000/api/orders/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        let msg = `Failed to place order (${res.status})`;
+        try { const j = JSON.parse(text); msg = j.error || j.message || msg; } catch(_){ msg = text || msg; }
+        throw new Error(msg);
+      }
+      await res.json();
+      // Clear local cart state
+      setData([]);
+      setTotal(0);
+      alert('Ordered successfully!');
+      navigate('/orders');
+    } catch (err) {
+      console.error('Checkout error:', err);
+      alert(err.message || 'Failed to place order. Please try again.');
+    }
+  };
+
+>>>>>>> f5a76c9 (final commit)
   const updateQuantity = (cartId, newQuantity) => {
     if (newQuantity < 1) return;
     
@@ -126,7 +168,11 @@ export default function Checkout() {
 
   useEffect(()=>{
     getData()
+<<<<<<< HEAD
   },[])
+=======
+  },[user, token])
+>>>>>>> f5a76c9 (final commit)
 
   return (
     <>
@@ -220,6 +266,7 @@ export default function Checkout() {
             })
           )}
 
+<<<<<<< HEAD
       <div className="coupon">
       <InputGroup className="mb-3">
         <Form.Control
@@ -232,6 +279,9 @@ export default function Checkout() {
         </Button>
       </InputGroup>
       </div>
+=======
+      {/* Coupon section removed as requested */}
+>>>>>>> f5a76c9 (final commit)
       
       {data.length > 0 && (
         <div className="total-section">
@@ -242,9 +292,15 @@ export default function Checkout() {
             <Button variant="outline-secondary" onClick={clearCart}>
               Clear All Items
             </Button>
+<<<<<<< HEAD
             <Link className="btn btn-primary btn-lg" to="/payment">
               Proceed to Payment (₹{total})
             </Link>
+=======
+            <Button className="btn btn-primary btn-lg" onClick={checkout}>
+              Place Order (₹{total})
+            </Button>
+>>>>>>> f5a76c9 (final commit)
           </div>
         </div>
       )}

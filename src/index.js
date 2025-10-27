@@ -3,7 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+<<<<<<< HEAD
 //import 'bootstrap/dist/css/bootstrap.min.css';
+=======
+import 'bootstrap/dist/css/bootstrap.min.css';
+>>>>>>> f5a76c9 (final commit)
 import CartProvider from './components/cart/Cart';
 
 

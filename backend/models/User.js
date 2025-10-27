@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 6
+<<<<<<< HEAD
+=======
+  },
+  role: {
+    type: String,
+    enum: ['customer', 'restaurant'],
+    default: 'customer'
+>>>>>>> f5a76c9 (final commit)
   }
 }, {
   timestamps: true

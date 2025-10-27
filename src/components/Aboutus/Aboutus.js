@@ -4,14 +4,31 @@ import "./Aboutus.css";
 import { Link } from "react-router-dom";
 import Images from "./../images/gkmit.jpeg";
 import SmartNavbar from "../Navbar/SmartNavbar";
+<<<<<<< HEAD
 
 
 const Aboutus = () => {
+=======
+import { useAuth } from "../../context/AuthContext";
+
+
+const Aboutus = () => {
+  const { user, isAuthenticated } = useAuth();
+  const backPath = !isAuthenticated
+    ? "/"
+    : user?.role === 'restaurant'
+      ? "/restaurant/menu"
+      : "/menu";
+>>>>>>> f5a76c9 (final commit)
   return (
     <>
       <SmartNavbar />
       <div className="aboutus">
+<<<<<<< HEAD
         <Link className="btn btn-light mx-1" to="/" role="button">
+=======
+        <Link className="btn btn-light mx-1" to={backPath} role="button">
+>>>>>>> f5a76c9 (final commit)
           Back to Home
         </Link>
       <h3 className="about">

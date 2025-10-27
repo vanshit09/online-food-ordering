@@ -13,7 +13,24 @@ const foodSchema = new mongoose.Schema({
   },
   food_image: {
     type: String,
+<<<<<<< HEAD
     default: './images/Vanillashake.jpeg'
+=======
+    default: ''
+  },
+  restaurant_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  is_available: {
+    type: Boolean,
+    default: true
+>>>>>>> f5a76c9 (final commit)
   }
 }, {
   timestamps: true

@@ -9,6 +9,10 @@ export const Register = () => {
     const [fullname, setfullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+<<<<<<< HEAD
+=======
+    const [role, setRole] = useState('customer');
+>>>>>>> f5a76c9 (final commit)
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -26,9 +30,16 @@ export const Register = () => {
         }
 
         try {
+<<<<<<< HEAD
             const result = await register(fullname, email, password);
             if (result.success) {
                 navigate("/menu");
+=======
+            const result = await register(fullname, email, password, role);
+            if (result.success) {
+                const next = (result.user?.role === 'restaurant') ? '/restaurant/menu' : '/menu';
+                navigate(next);
+>>>>>>> f5a76c9 (final commit)
             } else {
                 setError(result.message);
             }
@@ -70,6 +81,19 @@ export const Register = () => {
                             placeholder="Enter your password"
                             required
                         />
+<<<<<<< HEAD
+=======
+                        <label htmlFor="role">Role</label>
+                        <select 
+                            id="role"
+                            value={role}
+                            onChange={(e)=> setRole(e.target.value)}
+                            required
+                        >
+                            <option value="customer">Customer</option>
+                            <option value="restaurant">Restaurant</option>
+                        </select>
+>>>>>>> f5a76c9 (final commit)
                         <button type="submit" disabled={loading}>
                             {loading ? 'Registering...' : 'Register'}
                         </button>
@@ -79,7 +103,11 @@ export const Register = () => {
                     </p>
                 </div>
             </div>
+<<<<<<< HEAD
             <img className="register" src={Image}/>
+=======
+            <img className="register" src={Image} alt="Register illustration"/>
+>>>>>>> f5a76c9 (final commit)
         </div>
     )
 }

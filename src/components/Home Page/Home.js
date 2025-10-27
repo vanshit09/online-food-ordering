@@ -5,11 +5,15 @@ import { useAuth } from "../../context/AuthContext";
 import "./Home.css"
 
 const Home = () => {
+<<<<<<< HEAD
   const [featuredItems, setFeaturedItems] = useState([]);
+=======
+>>>>>>> f5a76c9 (final commit)
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { user, token } = useAuth();
 
   useEffect(() => {
+<<<<<<< HEAD
     // Fetch featured food items
     fetch('http://localhost:5000/api/foods')
       .then(res => res.json())
@@ -30,6 +34,8 @@ const Home = () => {
         ]);
       });
 
+=======
+>>>>>>> f5a76c9 (final commit)
     // Add scroll listener for scroll to top button
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
@@ -43,6 +49,7 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+<<<<<<< HEAD
   const addToCart = (foodId) => {
     console.log('Home: Add to cart called with ID:', foodId);
     console.log('Home: User:', user);
@@ -97,6 +104,8 @@ const Home = () => {
     });
   };
 
+=======
+>>>>>>> f5a76c9 (final commit)
   return (
     <>
       <SmartNavbar />
@@ -110,7 +119,10 @@ const Home = () => {
           <div className="actions">
             <a href="/login" className="main-2">Login</a>
             <a href="/register" className="main-1">Register</a>
+<<<<<<< HEAD
             <a href="/menu" className="main-1">View Menu</a>
+=======
+>>>>>>> f5a76c9 (final commit)
           </div>
         </div>
       </section>
@@ -197,6 +209,7 @@ const Home = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Featured Menu Section */}
       <section id="featured-menu">
         <div className="container">
@@ -225,6 +238,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+=======
+      {/* Removed Featured Menu and menu links to keep Home focused on auth */}
+>>>>>>> f5a76c9 (final commit)
 
       {/* Statistics Section */}
       <section id="stats">
@@ -250,16 +266,27 @@ const Home = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f5a76c9 (final commit)
       {/* Call to Action Section */}
       <section id="cta">
         <div className="container">
           <div className="cta-content">
+<<<<<<< HEAD
             <h2>Ready to Order?</h2>
             <p>Join thousands of satisfied customers and experience the best food in town!</p>
             <div className="cta-buttons">
               <a href="/register" className="btn-primary">Get Started</a>
               <a href="/menu" className="btn-secondary">Browse Menu</a>
+=======
+            <h2>Ready to Join?</h2>
+            <p>Create an account or login to continue.</p>
+            <div className="cta-buttons">
+              <a href="/register" className="btn-primary">Get Started</a>
+              <a href="/login" className="btn-secondary">Login</a>
+>>>>>>> f5a76c9 (final commit)
             </div>
           </div>
         </div>
@@ -272,9 +299,12 @@ const Home = () => {
             ↑
           </button>
         )}
+<<<<<<< HEAD
         <a href="/menu" className="floating-menu-btn" title="View Menu">
           🍽️
         </a>
+=======
+>>>>>>> f5a76c9 (final commit)
         <a href="/cart" className="floating-cart-btn" title="View Cart">
           🛒
         </a>

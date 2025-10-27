@@ -2,14 +2,31 @@ import React from 'react'
 import "./Contactus.css"
 import { Link } from "react-router-dom";
 import SmartNavbar from "../Navbar/SmartNavbar";
+<<<<<<< HEAD
 
 
 const Contactus = () => {
+=======
+import { useAuth } from "../../context/AuthContext";
+
+
+const Contactus = () => {
+  const { user, isAuthenticated } = useAuth();
+  const backPath = !isAuthenticated
+    ? "/"
+    : user?.role === 'restaurant'
+      ? "/restaurant/menu"
+      : "/menu";
+>>>>>>> f5a76c9 (final commit)
   return (
     <>
       <SmartNavbar />
       <div className='contact'>
+<<<<<<< HEAD
         <Link className="btn btn-light mx-1" to="/" role="button">
+=======
+        <Link className="btn btn-light mx-1" to={backPath} role="button">
+>>>>>>> f5a76c9 (final commit)
           Back to Home
         </Link>
         <div className="container">

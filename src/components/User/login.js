@@ -27,7 +27,16 @@ export const Login = () => {
     try {
       const result = await login(email, password);
       if (result.success) {
+<<<<<<< HEAD
         navigate("/menu");
+=======
+        const role = result.user?.role || 'customer';
+        if (role === 'restaurant') {
+          navigate('/restaurant/menu');
+        } else {
+          navigate('/menu');
+        }
+>>>>>>> f5a76c9 (final commit)
       } else {
         setError(result.message);
       }
@@ -71,7 +80,11 @@ export const Login = () => {
           </p>
         </div>
       </div>
+<<<<<<< HEAD
       <img className="login" src={Image} />
+=======
+      <img className="login" src={Image} alt="Login illustration" />
+>>>>>>> f5a76c9 (final commit)
     </>
   );
 };
